@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Follow Along Nav Dropdown</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>This is Awesome</h2>
+  <nav class="top">
+    <div class="dropdownBackground">
+      <span class="arrow"></span>
+    </div>
+
+    <ul class="cool">
+      <li>
+        <a href="#">About Me</a>
+        <div class="dropdown dropdown1">
+          <div class="bio">
+            <img src="https://lg-mediagroup.com/Codetag_sm.jpg">
+            <p>Les is currently working on web development in Ruby on Rails, JavaScript, Advanced CSS, and React. Good things come to those who practice!</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a href="#">Skills</a>
+        <ul class="dropdown courses">
+          <li>
+            <span class="code">HTML5</span>
+            <a href="#">Where I Started</a>
+          </li>
+          <li>
+            <span class="code">CSS</span>
+            <a href="#">Grid and Flexbox</a>
+          </li>
+          <li>
+            <span class="code">Ruby</span>
+            <a href="#">Programming Elements</a>
+          </li>
+          <li>
+            <span class="code">Sinatra</span>
+            <a href="#">Style and Class</a>
+          </li>
+          <li>
+            <span class="code">Rails</span>
+            <a href="#">Frontend and Backend</a>
+          </li>
+          <li>
+            <span class="code">JavaScript</span>
+            <a href="#">ES6 and Updates</a>
+          </li>
+          <li>
+            <span class="code">React</span>
+            <a href="#">JSX and Redux</a>
+          </li>
+          <li>
+            <span class="code">Python</span>
+            <a href="#">Coursera and NYS</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">Links</a>
+        <ul class="dropdown dropdown3">
+          <li><a class="button" href="http://twitter.com/LeslieMedia">Twitter</a></li>
+          <li><a class="button" href="https://www.facebook.com/LGWorldCom">Facebook</a></li>
+          <li><a class="button" href="https://www.instagram.com/lg_mediagroup/">Instagram</a></li>
+          <li><a class="button" href="https://gonzaleznyc.medium.com">Medium</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+<style>
+</style>
+
+<script>
+
+  const triggers = document.querySelectorAll('.cool > li');
+  const background = document.querySelector('.dropdownBackground');
+  const nav = document.querySelector('.top');
+
+  // function handleEnter() {
+  //   this.classList.add('trigger-enter');
+  //   setTimeout(function() {
+  //     // when you enter into a function, the value of this changes!
+  //     console.log(this); // oops it's Window!
+  //     this.classList.add('trigger-enter-active');
+  //   }, 150);
+  // }
+
+  // function handleEnter() {
+  //   this.classList.add('trigger-enter');
+  //   setTimeout(() => { // when you use arrow function
+  //     console.log(this); // the value of this is inherited from the parent
+  //     this.classList.add('trigger-enter-active');
+  //   }, 150);
+  // }
+
+  function handleEnter() {
+    this.classList.add('trigger-enter');
+    // setTimeout(() => this.classList.add('trigger-enter-active'), 150); // as one line
+
+    // safeguard for fast hover movement
+    // setTimeout(() => {
+    //   if(this.classList.contains('trigger-enter')) {
+    //     this.classList.add('trigger-enter-active')
+    //   }
+    // }, 150);
+
+    // refactored
+    setTimeout(() => this.classList.contains('trigger-enter') && 
+    this.classList.add('trigger-enter-active'), 150);
+    background.classList.add('open');
+
+    const dropdown = this.querySelector('.dropdown');
+    const dropdownCoords = dropdown.getBoundingClientRect();
+    const navCoords = nav.getBoundingClientRect(); // to secure nav
+    
+    const coords = {
+      height: dropdownCoords.height,
+      width: dropdownCoords.width,
+      top: dropdownCoords.top - navCoords.top,
+      left: dropdownCoords.left - navCoords.left
+    };
+
+    background.style.setProperty('width', `${coords.width}px`);
+    background.style.setProperty('height', `${coords.height}px`);
+    // background.style.setProperty('transform', `translate(x,y)`; // fyi
+    background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px)`);
+  }
+
+  function handleLeave() {
+    this.classList.remove('trigger-enter', 'trigger-enter-active');
+    background.classList.remove('open');
+  }
+
+  triggers.forEach(trigger => trigger.addEventListener('mouseenter', handleEnter));
+  triggers.forEach(trigger => trigger.addEventListener('mouseleave', handleLeave));
+
+</script>
+
+</body>
+</html>
